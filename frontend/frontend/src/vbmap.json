@@ -1,0 +1,6 @@
+{
+    "Level 1"{
+        "Mand": ["Request 1", "Request 2", "Request 3"],
+        "Tact": ["Label 1", "Label 2"]
+    }
+}

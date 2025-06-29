@@ -6,6 +6,9 @@ export const getClient = /* GraphQL */ `
     getClient(id: $id) {
       id
       name
+      currentVBLevel
+      currentVBDomain
+      currentVBGoal
       goals {
         nextToken
         __typename
@@ -27,6 +30,9 @@ export const listClients = /* GraphQL */ `
       items {
         id
         name
+        currentVBLevel
+        currentVBDomain
+        currentVBGoal
         createdAt
         updatedAt
         owner
@@ -42,6 +48,7 @@ export const getGoal = /* GraphQL */ `
     getGoal(id: $id) {
       id
       title
+      progress
       clientID
       dataPoints {
         nextToken
@@ -49,7 +56,6 @@ export const getGoal = /* GraphQL */ `
       }
       createdAt
       updatedAt
-      clientGoalsId
       owner
       __typename
     }
@@ -65,10 +71,10 @@ export const listGoals = /* GraphQL */ `
       items {
         id
         title
+        progress
         clientID
         createdAt
         updatedAt
-        clientGoalsId
         owner
         __typename
       }
@@ -133,10 +139,10 @@ export const goalsByClientID = /* GraphQL */ `
       items {
         id
         title
+        progress
         clientID
         createdAt
         updatedAt
-        clientGoalsId
         owner
         __typename
       }

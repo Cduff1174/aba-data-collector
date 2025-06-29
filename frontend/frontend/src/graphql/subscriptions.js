@@ -9,6 +9,9 @@ export const onCreateClient = /* GraphQL */ `
     onCreateClient(filter: $filter, owner: $owner) {
       id
       name
+      currentVBLevel
+      currentVBDomain
+      currentVBGoal
       goals {
         nextToken
         __typename
@@ -28,6 +31,9 @@ export const onUpdateClient = /* GraphQL */ `
     onUpdateClient(filter: $filter, owner: $owner) {
       id
       name
+      currentVBLevel
+      currentVBDomain
+      currentVBGoal
       goals {
         nextToken
         __typename
@@ -47,6 +53,9 @@ export const onDeleteClient = /* GraphQL */ `
     onDeleteClient(filter: $filter, owner: $owner) {
       id
       name
+      currentVBLevel
+      currentVBDomain
+      currentVBGoal
       goals {
         nextToken
         __typename
@@ -66,6 +75,7 @@ export const onCreateGoal = /* GraphQL */ `
     onCreateGoal(filter: $filter, owner: $owner) {
       id
       title
+      progress
       clientID
       dataPoints {
         nextToken
@@ -73,7 +83,6 @@ export const onCreateGoal = /* GraphQL */ `
       }
       createdAt
       updatedAt
-      clientGoalsId
       owner
       __typename
     }
@@ -87,6 +96,7 @@ export const onUpdateGoal = /* GraphQL */ `
     onUpdateGoal(filter: $filter, owner: $owner) {
       id
       title
+      progress
       clientID
       dataPoints {
         nextToken
@@ -94,7 +104,6 @@ export const onUpdateGoal = /* GraphQL */ `
       }
       createdAt
       updatedAt
-      clientGoalsId
       owner
       __typename
     }
@@ -108,6 +117,7 @@ export const onDeleteGoal = /* GraphQL */ `
     onDeleteGoal(filter: $filter, owner: $owner) {
       id
       title
+      progress
       clientID
       dataPoints {
         nextToken
@@ -115,7 +125,6 @@ export const onDeleteGoal = /* GraphQL */ `
       }
       createdAt
       updatedAt
-      clientGoalsId
       owner
       __typename
     }
