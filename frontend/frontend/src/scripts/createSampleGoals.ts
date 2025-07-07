@@ -33,5 +33,4 @@ const createGoals = async () => {
   }
 };
 
-// Run when this file is executed directly
 createGoals();
