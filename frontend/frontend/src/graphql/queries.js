@@ -6,8 +6,6 @@ export const getClient = /* GraphQL */ `
     getClient(id: $id) {
       id
       name
-      currentVBLevel
-      currentVBDomain
       currentVBGoal
       goals {
         nextToken
@@ -30,16 +28,15 @@ export const listClients = /* GraphQL */ `
       items {
         id
         name
-        currentVBLevel
-        currentVBDomain
         currentVBGoal
-        createdAt
-        updatedAt
-        owner
-        __typename
+        goals {
+          items {
+            id
+            title
+            progress
+          }
+        }
       }
-      nextToken
-      __typename
     }
   }
 `;

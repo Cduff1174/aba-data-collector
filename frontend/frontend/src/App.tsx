@@ -23,18 +23,18 @@ interface Goal {
 function App({ signOut }: any) {
   const [clients, setClients] = useState<Client[]>([]);
 
+  const fetchClients = async () => {
+    try {
+      const result: any = await client.graphql({ query: listClients });
+      console.log("🔍 Raw client data:", result.data.listClients.items);
+      setClients(result.data.listClients.items);
+    } catch (error) {
+      console.error('Fetch error:', error);
+    }
+  };
   useEffect(() => {
-    const fetchClients = async () => {
-      try {
-        const result: any = await client.graphql({ query: listClients });
-        setClients(result.data.listClients.items);
-      } catch (error) {
-        console.error('Fetch error:', error);
-      }
-    };
-
-    fetchClients();
-  }, []);
+  fetchClients();
+}, []);
 
   const handleCorrect = async (goalId: string, clientId: string, currentGoal: string) => {
     await client.graphql({
@@ -51,6 +51,7 @@ function App({ signOut }: any) {
     console.log("Calling updateProgress with", goalId, clientId, currentGoal);
 
     await updateProgress(goalId, clientId, currentGoal);
+    await fetchClients();
   };
 
   return (
@@ -62,18 +63,22 @@ function App({ signOut }: any) {
     <li key={client.id}>
       <strong>{client.name}</strong>
       <ul>
-        {client.goals?.length ? (
-          client.goals.map((goal: any) => (
-            <li key={goal.id}>
-              Goal: {goal.title}
-              <button onClick={() => handleCorrect(goal.id, client.id, client.currentVBGoal)}>
-                Mark Correct
-              </button>
-            </li>
-          ))
-        ) : (
-          <li>No goals found</li>
-        )}
+        {client.goals?.items?.length ? (
+  client.goals.items.map((goal: any) => (
+    <li key={goal.id}>
+  Goal: {goal.title}
+  <p>Progress: {goal.progress}%</p>
+  <progress value={goal.progress} max="100"></progress>
+  <button onClick={() => handleCorrect(goal.id, client.id, client.currentVBGoal)}>
+    Mark Correct
+  </button>
+</li>
+
+  ))
+) : (
+  <li>No goals found</li>
+)}
+
       </ul>
     </li>
   ))}

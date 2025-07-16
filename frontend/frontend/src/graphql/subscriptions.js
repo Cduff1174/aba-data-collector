@@ -9,8 +9,6 @@ export const onCreateClient = /* GraphQL */ `
     onCreateClient(filter: $filter, owner: $owner) {
       id
       name
-      currentVBLevel
-      currentVBDomain
       currentVBGoal
       goals {
         nextToken
@@ -31,8 +29,6 @@ export const onUpdateClient = /* GraphQL */ `
     onUpdateClient(filter: $filter, owner: $owner) {
       id
       name
-      currentVBLevel
-      currentVBDomain
       currentVBGoal
       goals {
         nextToken
@@ -53,8 +49,6 @@ export const onDeleteClient = /* GraphQL */ `
     onDeleteClient(filter: $filter, owner: $owner) {
       id
       name
-      currentVBLevel
-      currentVBDomain
       currentVBGoal
       goals {
         nextToken

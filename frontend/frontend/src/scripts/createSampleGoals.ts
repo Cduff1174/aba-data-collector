@@ -1,6 +1,7 @@
 import { generateClient } from 'aws-amplify/api';
 import { listClients } from '../graphql/queries';
 import { createGoal } from '../graphql/mutations';
+import { VB_GOALS } from '../vbGoals'; 
 
 const client = generateClient();
 
@@ -11,22 +12,25 @@ const createGoals = async () => {
 
     for (const c of clients) {
       if (c.goals?.items?.length > 0) {
-        console.log(`Skipping ${c.name}, already has goals.`);
+        console.log(`⏩ Skipping ${c.name}, already has goals.`);
         continue;
       }
 
-      await client.graphql({
-        query: createGoal,
-        variables: {
-          input: {
-            title: `Sample Goal for ${c.name}`,
-            progress: 0,
-            clientID: c.id,
+      for (const vb of VB_GOALS) {
+        await client.graphql({
+          query: createGoal,
+          variables: {
+            input: {
+              title: `VB Goal: ${vb}`,
+              progress: 0,
+              clientID: c.id,
+            },
           },
-        },
-      });
+        });
+        console.log(`✔ Created goal "${vb}" for ${c.name}`);
+      }
 
-      console.log(`✅ Goal created for ${c.name}`);
+      console.log(`✅ Finished seeding all goals for ${c.name}`);
     }
   } catch (err) {
     console.error("❌ Error creating goals:", JSON.stringify(err, null, 2));

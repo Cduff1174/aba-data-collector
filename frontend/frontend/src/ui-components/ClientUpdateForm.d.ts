@@ -23,22 +23,16 @@ export declare type ValidationResponse = {
 export declare type ValidationFunction<T> = (value: T, validationResponse: ValidationResponse) => ValidationResponse | Promise<ValidationResponse>;
 export declare type ClientUpdateFormInputValues = {
     name?: string;
-    currentVBLevel?: string;
-    currentVBDomain?: string;
     currentVBGoal?: string;
 };
 export declare type ClientUpdateFormValidationValues = {
     name?: ValidationFunction<string>;
-    currentVBLevel?: ValidationFunction<string>;
-    currentVBDomain?: ValidationFunction<string>;
     currentVBGoal?: ValidationFunction<string>;
 };
 export declare type PrimitiveOverrideProps<T> = Partial<T> & React.DOMAttributes<HTMLDivElement>;
 export declare type ClientUpdateFormOverridesProps = {
     ClientUpdateFormGrid?: PrimitiveOverrideProps<GridProps>;
     name?: PrimitiveOverrideProps<TextFieldProps>;
-    currentVBLevel?: PrimitiveOverrideProps<TextFieldProps>;
-    currentVBDomain?: PrimitiveOverrideProps<TextFieldProps>;
     currentVBGoal?: PrimitiveOverrideProps<TextFieldProps>;
 } & EscapeHatchProps;
 export declare type ClientUpdateFormProps = React.PropsWithChildren<{

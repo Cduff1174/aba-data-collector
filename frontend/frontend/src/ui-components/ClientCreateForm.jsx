@@ -24,32 +24,20 @@ export default function ClientCreateForm(props) {
   } = props;
   const initialValues = {
     name: "",
-    currentVBLevel: "",
-    currentVBDomain: "",
     currentVBGoal: "",
   };
   const [name, setName] = React.useState(initialValues.name);
-  const [currentVBLevel, setCurrentVBLevel] = React.useState(
-    initialValues.currentVBLevel
-  );
-  const [currentVBDomain, setCurrentVBDomain] = React.useState(
-    initialValues.currentVBDomain
-  );
   const [currentVBGoal, setCurrentVBGoal] = React.useState(
     initialValues.currentVBGoal
   );
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
     setName(initialValues.name);
-    setCurrentVBLevel(initialValues.currentVBLevel);
-    setCurrentVBDomain(initialValues.currentVBDomain);
     setCurrentVBGoal(initialValues.currentVBGoal);
     setErrors({});
   };
   const validations = {
     name: [{ type: "Required" }],
-    currentVBLevel: [],
-    currentVBDomain: [],
     currentVBGoal: [],
   };
   const runValidationTasks = async (
@@ -79,8 +67,6 @@ export default function ClientCreateForm(props) {
         event.preventDefault();
         let modelFields = {
           name,
-          currentVBLevel,
-          currentVBDomain,
           currentVBGoal,
         };
         const validationResponses = await Promise.all(
@@ -145,8 +131,6 @@ export default function ClientCreateForm(props) {
           if (onChange) {
             const modelFields = {
               name: value,
-              currentVBLevel,
-              currentVBDomain,
               currentVBGoal,
             };
             const result = onChange(modelFields);
@@ -163,60 +147,6 @@ export default function ClientCreateForm(props) {
         {...getOverrideProps(overrides, "name")}
       ></TextField>
       <TextField
-        label="Current vb level"
-        isRequired={false}
-        isReadOnly={false}
-        value={currentVBLevel}
-        onChange={(e) => {
-          let { value } = e.target;
-          if (onChange) {
-            const modelFields = {
-              name,
-              currentVBLevel: value,
-              currentVBDomain,
-              currentVBGoal,
-            };
-            const result = onChange(modelFields);
-            value = result?.currentVBLevel ?? value;
-          }
-          if (errors.currentVBLevel?.hasError) {
-            runValidationTasks("currentVBLevel", value);
-          }
-          setCurrentVBLevel(value);
-        }}
-        onBlur={() => runValidationTasks("currentVBLevel", currentVBLevel)}
-        errorMessage={errors.currentVBLevel?.errorMessage}
-        hasError={errors.currentVBLevel?.hasError}
-        {...getOverrideProps(overrides, "currentVBLevel")}
-      ></TextField>
-      <TextField
-        label="Current vb domain"
-        isRequired={false}
-        isReadOnly={false}
-        value={currentVBDomain}
-        onChange={(e) => {
-          let { value } = e.target;
-          if (onChange) {
-            const modelFields = {
-              name,
-              currentVBLevel,
-              currentVBDomain: value,
-              currentVBGoal,
-            };
-            const result = onChange(modelFields);
-            value = result?.currentVBDomain ?? value;
-          }
-          if (errors.currentVBDomain?.hasError) {
-            runValidationTasks("currentVBDomain", value);
-          }
-          setCurrentVBDomain(value);
-        }}
-        onBlur={() => runValidationTasks("currentVBDomain", currentVBDomain)}
-        errorMessage={errors.currentVBDomain?.errorMessage}
-        hasError={errors.currentVBDomain?.hasError}
-        {...getOverrideProps(overrides, "currentVBDomain")}
-      ></TextField>
-      <TextField
         label="Current vb goal"
         isRequired={false}
         isReadOnly={false}
@@ -226,8 +156,6 @@ export default function ClientCreateForm(props) {
           if (onChange) {
             const modelFields = {
               name,
-              currentVBLevel,
-              currentVBDomain,
               currentVBGoal: value,
             };
             const result = onChange(modelFields);
