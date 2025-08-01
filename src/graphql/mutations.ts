@@ -15,16 +15,14 @@ export const createClient = /* GraphQL */ `mutation CreateClient(
   createClient(input: $input, condition: $condition) {
     id
     name
-    currentVBLevel
-    currentVBDomain
     currentVBGoal
     goals {
       nextToken
       __typename
     }
+    owner
     createdAt
     updatedAt
-    owner
     __typename
   }
 }
@@ -39,16 +37,14 @@ export const updateClient = /* GraphQL */ `mutation UpdateClient(
   updateClient(input: $input, condition: $condition) {
     id
     name
-    currentVBLevel
-    currentVBDomain
     currentVBGoal
     goals {
       nextToken
       __typename
     }
+    owner
     createdAt
     updatedAt
-    owner
     __typename
   }
 }
@@ -63,16 +59,14 @@ export const deleteClient = /* GraphQL */ `mutation DeleteClient(
   deleteClient(input: $input, condition: $condition) {
     id
     name
-    currentVBLevel
-    currentVBDomain
     currentVBGoal
     goals {
       nextToken
       __typename
     }
+    owner
     createdAt
     updatedAt
-    owner
     __typename
   }
 }
@@ -93,9 +87,9 @@ export const createGoal = /* GraphQL */ `mutation CreateGoal(
       nextToken
       __typename
     }
+    owner
     createdAt
     updatedAt
-    owner
     __typename
   }
 }
@@ -116,9 +110,9 @@ export const updateGoal = /* GraphQL */ `mutation UpdateGoal(
       nextToken
       __typename
     }
+    owner
     createdAt
     updatedAt
-    owner
     __typename
   }
 }
@@ -139,9 +133,9 @@ export const deleteGoal = /* GraphQL */ `mutation DeleteGoal(
       nextToken
       __typename
     }
+    owner
     createdAt
     updatedAt
-    owner
     __typename
   }
 }
@@ -158,10 +152,10 @@ export const createDataPoint = /* GraphQL */ `mutation CreateDataPoint(
     value
     timestamp
     goalID
+    owner
     createdAt
     updatedAt
     goalDataPointsId
-    owner
     __typename
   }
 }
@@ -178,10 +172,10 @@ export const updateDataPoint = /* GraphQL */ `mutation UpdateDataPoint(
     value
     timestamp
     goalID
+    owner
     createdAt
     updatedAt
     goalDataPointsId
-    owner
     __typename
   }
 }
@@ -198,10 +192,10 @@ export const deleteDataPoint = /* GraphQL */ `mutation DeleteDataPoint(
     value
     timestamp
     goalID
+    owner
     createdAt
     updatedAt
     goalDataPointsId
-    owner
     __typename
   }
 }

@@ -5,22 +5,19 @@
 export type CreateClientInput = {
   id?: string | null,
   name: string,
-  currentVBLevel?: string | null,
-  currentVBDomain?: string | null,
   currentVBGoal?: string | null,
+  owner?: string | null,
 };
 
 export type ModelClientConditionInput = {
   name?: ModelStringInput | null,
-  currentVBLevel?: ModelStringInput | null,
-  currentVBDomain?: ModelStringInput | null,
   currentVBGoal?: ModelStringInput | null,
+  owner?: ModelStringInput | null,
   and?: Array< ModelClientConditionInput | null > | null,
   or?: Array< ModelClientConditionInput | null > | null,
   not?: ModelClientConditionInput | null,
   createdAt?: ModelStringInput | null,
   updatedAt?: ModelStringInput | null,
-  owner?: ModelStringInput | null,
 };
 
 export type ModelStringInput = {
@@ -67,13 +64,11 @@ export type Client = {
   __typename: "Client",
   id: string,
   name: string,
-  currentVBLevel?: string | null,
-  currentVBDomain?: string | null,
   currentVBGoal?: string | null,
   goals?: ModelGoalConnection | null,
+  owner?: string | null,
   createdAt: string,
   updatedAt: string,
-  owner?: string | null,
 };
 
 export type ModelGoalConnection = {
@@ -89,9 +84,9 @@ export type Goal = {
   progress?: number | null,
   clientID: string,
   dataPoints?: ModelDataPointConnection | null,
+  owner?: string | null,
   createdAt: string,
   updatedAt: string,
-  owner?: string | null,
 };
 
 export type ModelDataPointConnection = {
@@ -106,18 +101,17 @@ export type DataPoint = {
   value: string,
   timestamp: string,
   goalID: string,
+  owner?: string | null,
   createdAt: string,
   updatedAt: string,
   goalDataPointsId?: string | null,
-  owner?: string | null,
 };
 
 export type UpdateClientInput = {
   id: string,
   name?: string | null,
-  currentVBLevel?: string | null,
-  currentVBDomain?: string | null,
   currentVBGoal?: string | null,
+  owner?: string | null,
 };
 
 export type DeleteClientInput = {
@@ -129,18 +123,19 @@ export type CreateGoalInput = {
   title: string,
   progress?: number | null,
   clientID: string,
+  owner?: string | null,
 };
 
 export type ModelGoalConditionInput = {
   title?: ModelStringInput | null,
   progress?: ModelIntInput | null,
   clientID?: ModelIDInput | null,
+  owner?: ModelStringInput | null,
   and?: Array< ModelGoalConditionInput | null > | null,
   or?: Array< ModelGoalConditionInput | null > | null,
   not?: ModelGoalConditionInput | null,
   createdAt?: ModelStringInput | null,
   updatedAt?: ModelStringInput | null,
-  owner?: ModelStringInput | null,
 };
 
 export type ModelIntInput = {
@@ -176,6 +171,7 @@ export type UpdateGoalInput = {
   title?: string | null,
   progress?: number | null,
   clientID?: string | null,
+  owner?: string | null,
 };
 
 export type DeleteGoalInput = {
@@ -187,6 +183,7 @@ export type CreateDataPointInput = {
   value: string,
   timestamp: string,
   goalID: string,
+  owner?: string | null,
   goalDataPointsId?: string | null,
 };
 
@@ -194,13 +191,13 @@ export type ModelDataPointConditionInput = {
   value?: ModelStringInput | null,
   timestamp?: ModelStringInput | null,
   goalID?: ModelIDInput | null,
+  owner?: ModelStringInput | null,
   and?: Array< ModelDataPointConditionInput | null > | null,
   or?: Array< ModelDataPointConditionInput | null > | null,
   not?: ModelDataPointConditionInput | null,
   createdAt?: ModelStringInput | null,
   updatedAt?: ModelStringInput | null,
   goalDataPointsId?: ModelIDInput | null,
-  owner?: ModelStringInput | null,
 };
 
 export type UpdateDataPointInput = {
@@ -208,6 +205,7 @@ export type UpdateDataPointInput = {
   value?: string | null,
   timestamp?: string | null,
   goalID?: string | null,
+  owner?: string | null,
   goalDataPointsId?: string | null,
 };
 
@@ -218,15 +216,13 @@ export type DeleteDataPointInput = {
 export type ModelClientFilterInput = {
   id?: ModelIDInput | null,
   name?: ModelStringInput | null,
-  currentVBLevel?: ModelStringInput | null,
-  currentVBDomain?: ModelStringInput | null,
   currentVBGoal?: ModelStringInput | null,
+  owner?: ModelStringInput | null,
   createdAt?: ModelStringInput | null,
   updatedAt?: ModelStringInput | null,
   and?: Array< ModelClientFilterInput | null > | null,
   or?: Array< ModelClientFilterInput | null > | null,
   not?: ModelClientFilterInput | null,
-  owner?: ModelStringInput | null,
 };
 
 export type ModelClientConnection = {
@@ -240,12 +236,12 @@ export type ModelGoalFilterInput = {
   title?: ModelStringInput | null,
   progress?: ModelIntInput | null,
   clientID?: ModelIDInput | null,
+  owner?: ModelStringInput | null,
   createdAt?: ModelStringInput | null,
   updatedAt?: ModelStringInput | null,
   and?: Array< ModelGoalFilterInput | null > | null,
   or?: Array< ModelGoalFilterInput | null > | null,
   not?: ModelGoalFilterInput | null,
-  owner?: ModelStringInput | null,
 };
 
 export type ModelDataPointFilterInput = {
@@ -253,13 +249,13 @@ export type ModelDataPointFilterInput = {
   value?: ModelStringInput | null,
   timestamp?: ModelStringInput | null,
   goalID?: ModelIDInput | null,
+  owner?: ModelStringInput | null,
   createdAt?: ModelStringInput | null,
   updatedAt?: ModelStringInput | null,
   and?: Array< ModelDataPointFilterInput | null > | null,
   or?: Array< ModelDataPointFilterInput | null > | null,
   not?: ModelDataPointFilterInput | null,
   goalDataPointsId?: ModelIDInput | null,
-  owner?: ModelStringInput | null,
 };
 
 export enum ModelSortDirection {
@@ -271,8 +267,6 @@ export enum ModelSortDirection {
 export type ModelSubscriptionClientFilterInput = {
   id?: ModelSubscriptionIDInput | null,
   name?: ModelSubscriptionStringInput | null,
-  currentVBLevel?: ModelSubscriptionStringInput | null,
-  currentVBDomain?: ModelSubscriptionStringInput | null,
   currentVBGoal?: ModelSubscriptionStringInput | null,
   createdAt?: ModelSubscriptionStringInput | null,
   updatedAt?: ModelSubscriptionStringInput | null,
@@ -358,16 +352,14 @@ export type CreateClientMutation = {
     __typename: "Client",
     id: string,
     name: string,
-    currentVBLevel?: string | null,
-    currentVBDomain?: string | null,
     currentVBGoal?: string | null,
     goals?:  {
       __typename: "ModelGoalConnection",
       nextToken?: string | null,
     } | null,
+    owner?: string | null,
     createdAt: string,
     updatedAt: string,
-    owner?: string | null,
   } | null,
 };
 
@@ -381,16 +373,14 @@ export type UpdateClientMutation = {
     __typename: "Client",
     id: string,
     name: string,
-    currentVBLevel?: string | null,
-    currentVBDomain?: string | null,
     currentVBGoal?: string | null,
     goals?:  {
       __typename: "ModelGoalConnection",
       nextToken?: string | null,
     } | null,
+    owner?: string | null,
     createdAt: string,
     updatedAt: string,
-    owner?: string | null,
   } | null,
 };
 
@@ -404,16 +394,14 @@ export type DeleteClientMutation = {
     __typename: "Client",
     id: string,
     name: string,
-    currentVBLevel?: string | null,
-    currentVBDomain?: string | null,
     currentVBGoal?: string | null,
     goals?:  {
       __typename: "ModelGoalConnection",
       nextToken?: string | null,
     } | null,
+    owner?: string | null,
     createdAt: string,
     updatedAt: string,
-    owner?: string | null,
   } | null,
 };
 
@@ -433,9 +421,9 @@ export type CreateGoalMutation = {
       __typename: "ModelDataPointConnection",
       nextToken?: string | null,
     } | null,
+    owner?: string | null,
     createdAt: string,
     updatedAt: string,
-    owner?: string | null,
   } | null,
 };
 
@@ -455,9 +443,9 @@ export type UpdateGoalMutation = {
       __typename: "ModelDataPointConnection",
       nextToken?: string | null,
     } | null,
+    owner?: string | null,
     createdAt: string,
     updatedAt: string,
-    owner?: string | null,
   } | null,
 };
 
@@ -477,9 +465,9 @@ export type DeleteGoalMutation = {
       __typename: "ModelDataPointConnection",
       nextToken?: string | null,
     } | null,
+    owner?: string | null,
     createdAt: string,
     updatedAt: string,
-    owner?: string | null,
   } | null,
 };
 
@@ -495,10 +483,10 @@ export type CreateDataPointMutation = {
     value: string,
     timestamp: string,
     goalID: string,
+    owner?: string | null,
     createdAt: string,
     updatedAt: string,
     goalDataPointsId?: string | null,
-    owner?: string | null,
   } | null,
 };
 
@@ -514,10 +502,10 @@ export type UpdateDataPointMutation = {
     value: string,
     timestamp: string,
     goalID: string,
+    owner?: string | null,
     createdAt: string,
     updatedAt: string,
     goalDataPointsId?: string | null,
-    owner?: string | null,
   } | null,
 };
 
@@ -533,10 +521,10 @@ export type DeleteDataPointMutation = {
     value: string,
     timestamp: string,
     goalID: string,
+    owner?: string | null,
     createdAt: string,
     updatedAt: string,
     goalDataPointsId?: string | null,
-    owner?: string | null,
   } | null,
 };
 
@@ -549,16 +537,14 @@ export type GetClientQuery = {
     __typename: "Client",
     id: string,
     name: string,
-    currentVBLevel?: string | null,
-    currentVBDomain?: string | null,
     currentVBGoal?: string | null,
     goals?:  {
       __typename: "ModelGoalConnection",
       nextToken?: string | null,
     } | null,
+    owner?: string | null,
     createdAt: string,
     updatedAt: string,
-    owner?: string | null,
   } | null,
 };
 
@@ -575,12 +561,10 @@ export type ListClientsQuery = {
       __typename: "Client",
       id: string,
       name: string,
-      currentVBLevel?: string | null,
-      currentVBDomain?: string | null,
       currentVBGoal?: string | null,
+      owner?: string | null,
       createdAt: string,
       updatedAt: string,
-      owner?: string | null,
     } | null >,
     nextToken?: string | null,
   } | null,
@@ -601,9 +585,9 @@ export type GetGoalQuery = {
       __typename: "ModelDataPointConnection",
       nextToken?: string | null,
     } | null,
+    owner?: string | null,
     createdAt: string,
     updatedAt: string,
-    owner?: string | null,
   } | null,
 };
 
@@ -622,9 +606,9 @@ export type ListGoalsQuery = {
       title: string,
       progress?: number | null,
       clientID: string,
+      owner?: string | null,
       createdAt: string,
       updatedAt: string,
-      owner?: string | null,
     } | null >,
     nextToken?: string | null,
   } | null,
@@ -641,10 +625,10 @@ export type GetDataPointQuery = {
     value: string,
     timestamp: string,
     goalID: string,
+    owner?: string | null,
     createdAt: string,
     updatedAt: string,
     goalDataPointsId?: string | null,
-    owner?: string | null,
   } | null,
 };
 
@@ -663,10 +647,10 @@ export type ListDataPointsQuery = {
       value: string,
       timestamp: string,
       goalID: string,
+      owner?: string | null,
       createdAt: string,
       updatedAt: string,
       goalDataPointsId?: string | null,
-      owner?: string | null,
     } | null >,
     nextToken?: string | null,
   } | null,
@@ -689,9 +673,9 @@ export type GoalsByClientIDQuery = {
       title: string,
       progress?: number | null,
       clientID: string,
+      owner?: string | null,
       createdAt: string,
       updatedAt: string,
-      owner?: string | null,
     } | null >,
     nextToken?: string | null,
   } | null,
@@ -714,10 +698,10 @@ export type DataPointsByGoalIDQuery = {
       value: string,
       timestamp: string,
       goalID: string,
+      owner?: string | null,
       createdAt: string,
       updatedAt: string,
       goalDataPointsId?: string | null,
-      owner?: string | null,
     } | null >,
     nextToken?: string | null,
   } | null,
@@ -733,16 +717,14 @@ export type OnCreateClientSubscription = {
     __typename: "Client",
     id: string,
     name: string,
-    currentVBLevel?: string | null,
-    currentVBDomain?: string | null,
     currentVBGoal?: string | null,
     goals?:  {
       __typename: "ModelGoalConnection",
       nextToken?: string | null,
     } | null,
+    owner?: string | null,
     createdAt: string,
     updatedAt: string,
-    owner?: string | null,
   } | null,
 };
 
@@ -756,16 +738,14 @@ export type OnUpdateClientSubscription = {
     __typename: "Client",
     id: string,
     name: string,
-    currentVBLevel?: string | null,
-    currentVBDomain?: string | null,
     currentVBGoal?: string | null,
     goals?:  {
       __typename: "ModelGoalConnection",
       nextToken?: string | null,
     } | null,
+    owner?: string | null,
     createdAt: string,
     updatedAt: string,
-    owner?: string | null,
   } | null,
 };
 
@@ -779,16 +759,14 @@ export type OnDeleteClientSubscription = {
     __typename: "Client",
     id: string,
     name: string,
-    currentVBLevel?: string | null,
-    currentVBDomain?: string | null,
     currentVBGoal?: string | null,
     goals?:  {
       __typename: "ModelGoalConnection",
       nextToken?: string | null,
     } | null,
+    owner?: string | null,
     createdAt: string,
     updatedAt: string,
-    owner?: string | null,
   } | null,
 };
 
@@ -808,9 +786,9 @@ export type OnCreateGoalSubscription = {
       __typename: "ModelDataPointConnection",
       nextToken?: string | null,
     } | null,
+    owner?: string | null,
     createdAt: string,
     updatedAt: string,
-    owner?: string | null,
   } | null,
 };
 
@@ -830,9 +808,9 @@ export type OnUpdateGoalSubscription = {
       __typename: "ModelDataPointConnection",
       nextToken?: string | null,
     } | null,
+    owner?: string | null,
     createdAt: string,
     updatedAt: string,
-    owner?: string | null,
   } | null,
 };
 
@@ -852,9 +830,9 @@ export type OnDeleteGoalSubscription = {
       __typename: "ModelDataPointConnection",
       nextToken?: string | null,
     } | null,
+    owner?: string | null,
     createdAt: string,
     updatedAt: string,
-    owner?: string | null,
   } | null,
 };
 
@@ -870,10 +848,10 @@ export type OnCreateDataPointSubscription = {
     value: string,
     timestamp: string,
     goalID: string,
+    owner?: string | null,
     createdAt: string,
     updatedAt: string,
     goalDataPointsId?: string | null,
-    owner?: string | null,
   } | null,
 };
 
@@ -889,10 +867,10 @@ export type OnUpdateDataPointSubscription = {
     value: string,
     timestamp: string,
     goalID: string,
+    owner?: string | null,
     createdAt: string,
     updatedAt: string,
     goalDataPointsId?: string | null,
-    owner?: string | null,
   } | null,
 };
 
@@ -908,9 +886,9 @@ export type OnDeleteDataPointSubscription = {
     value: string,
     timestamp: string,
     goalID: string,
+    owner?: string | null,
     createdAt: string,
     updatedAt: string,
     goalDataPointsId?: string | null,
-    owner?: string | null,
   } | null,
 };

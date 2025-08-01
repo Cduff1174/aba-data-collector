@@ -12,16 +12,14 @@ export const getClient = /* GraphQL */ `query GetClient($id: ID!) {
   getClient(id: $id) {
     id
     name
-    currentVBLevel
-    currentVBDomain
     currentVBGoal
     goals {
       nextToken
       __typename
     }
+    owner
     createdAt
     updatedAt
-    owner
     __typename
   }
 }
@@ -35,12 +33,10 @@ export const listClients = /* GraphQL */ `query ListClients(
     items {
       id
       name
-      currentVBLevel
-      currentVBDomain
       currentVBGoal
+      owner
       createdAt
       updatedAt
-      owner
       __typename
     }
     nextToken
@@ -61,9 +57,9 @@ export const getGoal = /* GraphQL */ `query GetGoal($id: ID!) {
       nextToken
       __typename
     }
+    owner
     createdAt
     updatedAt
-    owner
     __typename
   }
 }
@@ -79,9 +75,9 @@ export const listGoals = /* GraphQL */ `query ListGoals(
       title
       progress
       clientID
+      owner
       createdAt
       updatedAt
-      owner
       __typename
     }
     nextToken
@@ -95,10 +91,10 @@ export const getDataPoint = /* GraphQL */ `query GetDataPoint($id: ID!) {
     value
     timestamp
     goalID
+    owner
     createdAt
     updatedAt
     goalDataPointsId
-    owner
     __typename
   }
 }
@@ -117,10 +113,10 @@ export const listDataPoints = /* GraphQL */ `query ListDataPoints(
       value
       timestamp
       goalID
+      owner
       createdAt
       updatedAt
       goalDataPointsId
-      owner
       __typename
     }
     nextToken
@@ -150,9 +146,9 @@ export const goalsByClientID = /* GraphQL */ `query GoalsByClientID(
       title
       progress
       clientID
+      owner
       createdAt
       updatedAt
-      owner
       __typename
     }
     nextToken
@@ -182,10 +178,10 @@ export const dataPointsByGoalID = /* GraphQL */ `query DataPointsByGoalID(
       value
       timestamp
       goalID
+      owner
       createdAt
       updatedAt
       goalDataPointsId
-      owner
       __typename
     }
     nextToken

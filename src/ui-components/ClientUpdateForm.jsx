@@ -26,29 +26,22 @@ export default function ClientUpdateForm(props) {
   } = props;
   const initialValues = {
     name: "",
-    currentVBLevel: "",
-    currentVBDomain: "",
     currentVBGoal: "",
+    owner: "",
   };
   const [name, setName] = React.useState(initialValues.name);
-  const [currentVBLevel, setCurrentVBLevel] = React.useState(
-    initialValues.currentVBLevel
-  );
-  const [currentVBDomain, setCurrentVBDomain] = React.useState(
-    initialValues.currentVBDomain
-  );
   const [currentVBGoal, setCurrentVBGoal] = React.useState(
     initialValues.currentVBGoal
   );
+  const [owner, setOwner] = React.useState(initialValues.owner);
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
     const cleanValues = clientRecord
       ? { ...initialValues, ...clientRecord }
       : initialValues;
     setName(cleanValues.name);
-    setCurrentVBLevel(cleanValues.currentVBLevel);
-    setCurrentVBDomain(cleanValues.currentVBDomain);
     setCurrentVBGoal(cleanValues.currentVBGoal);
+    setOwner(cleanValues.owner);
     setErrors({});
   };
   const [clientRecord, setClientRecord] = React.useState(clientModelProp);
@@ -69,9 +62,8 @@ export default function ClientUpdateForm(props) {
   React.useEffect(resetStateValues, [clientRecord]);
   const validations = {
     name: [{ type: "Required" }],
-    currentVBLevel: [],
-    currentVBDomain: [],
     currentVBGoal: [],
+    owner: [],
   };
   const runValidationTasks = async (
     fieldName,
@@ -100,9 +92,8 @@ export default function ClientUpdateForm(props) {
         event.preventDefault();
         let modelFields = {
           name,
-          currentVBLevel: currentVBLevel ?? null,
-          currentVBDomain: currentVBDomain ?? null,
           currentVBGoal: currentVBGoal ?? null,
+          owner: owner ?? null,
         };
         const validationResponses = await Promise.all(
           Object.keys(validations).reduce((promises, fieldName) => {
@@ -164,9 +155,8 @@ export default function ClientUpdateForm(props) {
           if (onChange) {
             const modelFields = {
               name: value,
-              currentVBLevel,
-              currentVBDomain,
               currentVBGoal,
+              owner,
             };
             const result = onChange(modelFields);
             value = result?.name ?? value;
@@ -182,60 +172,6 @@ export default function ClientUpdateForm(props) {
         {...getOverrideProps(overrides, "name")}
       ></TextField>
       <TextField
-        label="Current vb level"
-        isRequired={false}
-        isReadOnly={false}
-        value={currentVBLevel}
-        onChange={(e) => {
-          let { value } = e.target;
-          if (onChange) {
-            const modelFields = {
-              name,
-              currentVBLevel: value,
-              currentVBDomain,
-              currentVBGoal,
-            };
-            const result = onChange(modelFields);
-            value = result?.currentVBLevel ?? value;
-          }
-          if (errors.currentVBLevel?.hasError) {
-            runValidationTasks("currentVBLevel", value);
-          }
-          setCurrentVBLevel(value);
-        }}
-        onBlur={() => runValidationTasks("currentVBLevel", currentVBLevel)}
-        errorMessage={errors.currentVBLevel?.errorMessage}
-        hasError={errors.currentVBLevel?.hasError}
-        {...getOverrideProps(overrides, "currentVBLevel")}
-      ></TextField>
-      <TextField
-        label="Current vb domain"
-        isRequired={false}
-        isReadOnly={false}
-        value={currentVBDomain}
-        onChange={(e) => {
-          let { value } = e.target;
-          if (onChange) {
-            const modelFields = {
-              name,
-              currentVBLevel,
-              currentVBDomain: value,
-              currentVBGoal,
-            };
-            const result = onChange(modelFields);
-            value = result?.currentVBDomain ?? value;
-          }
-          if (errors.currentVBDomain?.hasError) {
-            runValidationTasks("currentVBDomain", value);
-          }
-          setCurrentVBDomain(value);
-        }}
-        onBlur={() => runValidationTasks("currentVBDomain", currentVBDomain)}
-        errorMessage={errors.currentVBDomain?.errorMessage}
-        hasError={errors.currentVBDomain?.hasError}
-        {...getOverrideProps(overrides, "currentVBDomain")}
-      ></TextField>
-      <TextField
         label="Current vb goal"
         isRequired={false}
         isReadOnly={false}
@@ -245,9 +181,8 @@ export default function ClientUpdateForm(props) {
           if (onChange) {
             const modelFields = {
               name,
-              currentVBLevel,
-              currentVBDomain,
               currentVBGoal: value,
+              owner,
             };
             const result = onChange(modelFields);
             value = result?.currentVBGoal ?? value;
@@ -261,6 +196,32 @@ export default function ClientUpdateForm(props) {
         errorMessage={errors.currentVBGoal?.errorMessage}
         hasError={errors.currentVBGoal?.hasError}
         {...getOverrideProps(overrides, "currentVBGoal")}
+      ></TextField>
+      <TextField
+        label="Owner"
+        isRequired={false}
+        isReadOnly={false}
+        value={owner}
+        onChange={(e) => {
+          let { value } = e.target;
+          if (onChange) {
+            const modelFields = {
+              name,
+              currentVBGoal,
+              owner: value,
+            };
+            const result = onChange(modelFields);
+            value = result?.owner ?? value;
+          }
+          if (errors.owner?.hasError) {
+            runValidationTasks("owner", value);
+          }
+          setOwner(value);
+        }}
+        onBlur={() => runValidationTasks("owner", owner)}
+        errorMessage={errors.owner?.errorMessage}
+        hasError={errors.owner?.hasError}
+        {...getOverrideProps(overrides, "owner")}
       ></TextField>
       <Flex
         justifyContent="space-between"

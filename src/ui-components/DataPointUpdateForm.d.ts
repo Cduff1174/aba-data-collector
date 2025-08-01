@@ -26,11 +26,13 @@ export declare type DataPointUpdateFormInputValues = {
     value?: string;
     timestamp?: string;
     goalID?: string;
+    owner?: string;
 };
 export declare type DataPointUpdateFormValidationValues = {
     value?: ValidationFunction<string>;
     timestamp?: ValidationFunction<string>;
     goalID?: ValidationFunction<string>;
+    owner?: ValidationFunction<string>;
 };
 export declare type PrimitiveOverrideProps<T> = Partial<T> & React.DOMAttributes<HTMLDivElement>;
 export declare type DataPointUpdateFormOverridesProps = {
@@ -38,6 +40,7 @@ export declare type DataPointUpdateFormOverridesProps = {
     value?: PrimitiveOverrideProps<TextFieldProps>;
     timestamp?: PrimitiveOverrideProps<TextFieldProps>;
     goalID?: PrimitiveOverrideProps<TextFieldProps>;
+    owner?: PrimitiveOverrideProps<TextFieldProps>;
 } & EscapeHatchProps;
 export declare type DataPointUpdateFormProps = React.PropsWithChildren<{
     overrides?: DataPointUpdateFormOverridesProps | undefined | null;

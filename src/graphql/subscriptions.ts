@@ -15,16 +15,14 @@ export const onCreateClient = /* GraphQL */ `subscription OnCreateClient(
   onCreateClient(filter: $filter, owner: $owner) {
     id
     name
-    currentVBLevel
-    currentVBDomain
     currentVBGoal
     goals {
       nextToken
       __typename
     }
+    owner
     createdAt
     updatedAt
-    owner
     __typename
   }
 }
@@ -39,16 +37,14 @@ export const onUpdateClient = /* GraphQL */ `subscription OnUpdateClient(
   onUpdateClient(filter: $filter, owner: $owner) {
     id
     name
-    currentVBLevel
-    currentVBDomain
     currentVBGoal
     goals {
       nextToken
       __typename
     }
+    owner
     createdAt
     updatedAt
-    owner
     __typename
   }
 }
@@ -63,16 +59,14 @@ export const onDeleteClient = /* GraphQL */ `subscription OnDeleteClient(
   onDeleteClient(filter: $filter, owner: $owner) {
     id
     name
-    currentVBLevel
-    currentVBDomain
     currentVBGoal
     goals {
       nextToken
       __typename
     }
+    owner
     createdAt
     updatedAt
-    owner
     __typename
   }
 }
@@ -93,9 +87,9 @@ export const onCreateGoal = /* GraphQL */ `subscription OnCreateGoal(
       nextToken
       __typename
     }
+    owner
     createdAt
     updatedAt
-    owner
     __typename
   }
 }
@@ -116,9 +110,9 @@ export const onUpdateGoal = /* GraphQL */ `subscription OnUpdateGoal(
       nextToken
       __typename
     }
+    owner
     createdAt
     updatedAt
-    owner
     __typename
   }
 }
@@ -139,9 +133,9 @@ export const onDeleteGoal = /* GraphQL */ `subscription OnDeleteGoal(
       nextToken
       __typename
     }
+    owner
     createdAt
     updatedAt
-    owner
     __typename
   }
 }
@@ -158,10 +152,10 @@ export const onCreateDataPoint = /* GraphQL */ `subscription OnCreateDataPoint(
     value
     timestamp
     goalID
+    owner
     createdAt
     updatedAt
     goalDataPointsId
-    owner
     __typename
   }
 }
@@ -178,10 +172,10 @@ export const onUpdateDataPoint = /* GraphQL */ `subscription OnUpdateDataPoint(
     value
     timestamp
     goalID
+    owner
     createdAt
     updatedAt
     goalDataPointsId
-    owner
     __typename
   }
 }
@@ -198,10 +192,10 @@ export const onDeleteDataPoint = /* GraphQL */ `subscription OnDeleteDataPoint(
     value
     timestamp
     goalID
+    owner
     createdAt
     updatedAt
     goalDataPointsId
-    owner
     __typename
   }
 }

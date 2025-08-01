@@ -25,11 +25,13 @@ export declare type DataPointCreateFormInputValues = {
     value?: string;
     timestamp?: string;
     goalID?: string;
+    owner?: string;
 };
 export declare type DataPointCreateFormValidationValues = {
     value?: ValidationFunction<string>;
     timestamp?: ValidationFunction<string>;
     goalID?: ValidationFunction<string>;
+    owner?: ValidationFunction<string>;
 };
 export declare type PrimitiveOverrideProps<T> = Partial<T> & React.DOMAttributes<HTMLDivElement>;
 export declare type DataPointCreateFormOverridesProps = {
@@ -37,6 +39,7 @@ export declare type DataPointCreateFormOverridesProps = {
     value?: PrimitiveOverrideProps<TextFieldProps>;
     timestamp?: PrimitiveOverrideProps<TextFieldProps>;
     goalID?: PrimitiveOverrideProps<TextFieldProps>;
+    owner?: PrimitiveOverrideProps<TextFieldProps>;
 } & EscapeHatchProps;
 export declare type DataPointCreateFormProps = React.PropsWithChildren<{
     overrides?: DataPointCreateFormOverridesProps | undefined | null;

@@ -28,10 +28,12 @@ export default function DataPointUpdateForm(props) {
     value: "",
     timestamp: "",
     goalID: "",
+    owner: "",
   };
   const [value, setValue] = React.useState(initialValues.value);
   const [timestamp, setTimestamp] = React.useState(initialValues.timestamp);
   const [goalID, setGoalID] = React.useState(initialValues.goalID);
+  const [owner, setOwner] = React.useState(initialValues.owner);
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
     const cleanValues = dataPointRecord
@@ -40,6 +42,7 @@ export default function DataPointUpdateForm(props) {
     setValue(cleanValues.value);
     setTimestamp(cleanValues.timestamp);
     setGoalID(cleanValues.goalID);
+    setOwner(cleanValues.owner);
     setErrors({});
   };
   const [dataPointRecord, setDataPointRecord] =
@@ -63,6 +66,7 @@ export default function DataPointUpdateForm(props) {
     value: [{ type: "Required" }],
     timestamp: [{ type: "Required" }],
     goalID: [{ type: "Required" }],
+    owner: [],
   };
   const runValidationTasks = async (
     fieldName,
@@ -110,6 +114,7 @@ export default function DataPointUpdateForm(props) {
           value,
           timestamp,
           goalID,
+          owner: owner ?? null,
         };
         const validationResponses = await Promise.all(
           Object.keys(validations).reduce((promises, fieldName) => {
@@ -173,6 +178,7 @@ export default function DataPointUpdateForm(props) {
               value: value,
               timestamp,
               goalID,
+              owner,
             };
             const result = onChange(modelFields);
             value = result?.value ?? value;
@@ -201,6 +207,7 @@ export default function DataPointUpdateForm(props) {
               value,
               timestamp: value,
               goalID,
+              owner,
             };
             const result = onChange(modelFields);
             value = result?.timestamp ?? value;
@@ -227,6 +234,7 @@ export default function DataPointUpdateForm(props) {
               value,
               timestamp,
               goalID: value,
+              owner,
             };
             const result = onChange(modelFields);
             value = result?.goalID ?? value;
@@ -240,6 +248,33 @@ export default function DataPointUpdateForm(props) {
         errorMessage={errors.goalID?.errorMessage}
         hasError={errors.goalID?.hasError}
         {...getOverrideProps(overrides, "goalID")}
+      ></TextField>
+      <TextField
+        label="Owner"
+        isRequired={false}
+        isReadOnly={false}
+        value={owner}
+        onChange={(e) => {
+          let { value } = e.target;
+          if (onChange) {
+            const modelFields = {
+              value,
+              timestamp,
+              goalID,
+              owner: value,
+            };
+            const result = onChange(modelFields);
+            value = result?.owner ?? value;
+          }
+          if (errors.owner?.hasError) {
+            runValidationTasks("owner", value);
+          }
+          setOwner(value);
+        }}
+        onBlur={() => runValidationTasks("owner", owner)}
+        errorMessage={errors.owner?.errorMessage}
+        hasError={errors.owner?.hasError}
+        {...getOverrideProps(overrides, "owner")}
       ></TextField>
       <Flex
         justifyContent="space-between"
