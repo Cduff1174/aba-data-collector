@@ -8,81 +8,101 @@ import '@aws-amplify/ui-react/styles.css';
 
 const client = generateClient();
 
+interface Goal {
+  id: string;
+  title: string;
+  progress?: number;
+}
+
 interface Client {
   id: string;
   name: string;
   currentVBGoal: string;
-  goals: Goal[];
+  // API might return either Goal[] or { items: Goal[] }
+  goals: Goal[] | { items?: Goal[] } | undefined;
 }
 
-interface Goal {
-  id: string;
-  title: string;
-}
+// Normalize goals to an array regardless of API shape
+const goalsArray = (g: any): Goal[] => (Array.isArray(g) ? g : g?.items ?? []);
 
-function App({ signOut }: any) {
+function App({ signOut }: { signOut: () => void }) {
   const [clients, setClients] = useState<Client[]>([]);
 
   const fetchClients = async () => {
     try {
       const result: any = await client.graphql({ query: listClients });
-      console.log("🔍 Raw client data:", result.data.listClients.items);
-      setClients(result.data.listClients.items);
+      const items = result?.data?.listClients?.items ?? [];
+      console.log('🔍 Raw client data:', items);
+      setClients(items);
     } catch (error) {
       console.error('Fetch error:', error);
     }
   };
+
   useEffect(() => {
-  fetchClients();
-}, []);
+    void fetchClients();
+  }, []);
 
   const handleCorrect = async (goalId: string, clientId: string, currentGoal: string) => {
-    await client.graphql({
-      query: createDataPoint,
-      variables: {
-        input: {
-          goalID: goalId,
-          value: "correct",
-          timestamp: new Date().toISOString(),
+    try {
+      await client.graphql({
+        query: createDataPoint,
+        variables: {
+          input: {
+            goalID: goalId,
+            value: 'correct',
+            timestamp: new Date().toISOString(),
+          },
         },
-      },
-    });
+      });
 
-    console.log("Calling updateProgress with", goalId, clientId, currentGoal);
+      console.log('Calling updateProgress with', { goalId, clientId, currentGoal });
+      await updateProgress(goalId, clientId, currentGoal);
 
-    await updateProgress(goalId, clientId, currentGoal);
-    await fetchClients();
+      await fetchClients();
+    } catch (err) {
+      console.error('Error marking correct / updating progress:', err);
+    }
   };
 
   return (
-    <div>
+    <div style={{ padding: 16 }}>
       <h1>Clients</h1>
-      <button onClick={signOut}>Sign Out</button>
-      <ul>
-  {clients.map((client) => (
-    <li key={client.id}>
-      <strong>{client.name}</strong>
-      <ul>
-        {client.goals?.items?.length ? (
-  client.goals.items.map((goal: any) => (
-    <li key={goal.id}>
-  Goal: {goal.title}
-  <p>Progress: {goal.progress}%</p>
-  <progress value={goal.progress} max="100"></progress>
-  <button onClick={() => handleCorrect(goal.id, client.id, client.currentVBGoal)}>
-    Mark Correct
-  </button>
-</li>
+      <button onClick={signOut} style={{ marginBottom: 12 }}>
+        Sign Out
+      </button>
 
-  ))
-) : (
-  <li>No goals found</li>
-)}
-
+      <ul>
+        {clients.map((client) => {
+          const goals = goalsArray(client.goals);
+          return (
+            <li key={client.id} style={{ marginBottom: 16 }}>
+              <strong>{client.name}</strong>
+              <ul>
+                {goals.length ? (
+                  goals.map((goal) => (
+                    <li key={goal.id} style={{ marginBottom: 8 }}>
+                      <div>Goal: {goal.title}</div>
+                      <p>Progress: {goal.progress ?? 0}%</p>
+                      <progress value={goal.progress ?? 0} max={100} />
+                      <div>
+                        <button
+                          onClick={() => handleCorrect(goal.id, client.id, client.currentVBGoal)}
+                          style={{ marginTop: 6 }}
+                        >
+                          Mark Correct
+                        </button>
+                      </div>
+                    </li>
+                  ))
+                ) : (
+                  <li>No goals found</li>
+                )}
+              </ul>
+            </li>
+          );
+        })}
       </ul>
-    </li>
-  ))}
-</ul>
     </div>
   );
 }

@@ -6,13 +6,9 @@
     "lib": ["ES2022", "DOM", "DOM.Iterable"],
     "module": "ESNext",
     "skipLibCheck": true,
-
-    /* Bundler mode for Vite */
     "moduleResolution": "Bundler",
     "jsx": "react-jsx",
     "noEmit": true,
-
-    /* Nice-to-haves */
     "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
@@ -23,5 +19,6 @@
     "baseUrl": "./",
     "types": ["vite/client"]
   },
-  "include": ["src"]
+  "include": ["src"],
+  "exclude": ["src/scripts"]   // 👈 add this line
 }
