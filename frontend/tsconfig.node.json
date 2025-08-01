@@ -1,13 +1,10 @@
 {
-  "extends": "./tsconfig.json",
   "compilerOptions": {
-    "moduleResolution": "NodeNext",
-    "module": "ES2022",
-    "target": "ES2022",
-    "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true,
-    "resolveJsonModule": true,
-    "outDir": "dist"
+    "composite": true,
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "strict": true,
+    "skipLibCheck": true
   },
-  "include": ["src/scripts"]
+  "include": ["vite.config.ts"]
 }
