@@ -6,6 +6,8 @@ import { createDataPoint } from './graphql/mutations';
 import { listClients } from './graphql/queries';
 import { updateProgress } from './utils/goalHelpers';
 import '@aws-amplify/ui-react/styles.css';
+import GoalGraph from './components/GoalGraph';
+import ProgressChecker from './components/ProgressChecker';
 
 const client = generateClient();
 
@@ -37,7 +39,9 @@ function App() {
     }
   };
 
-  useEffect(() => { void fetchClients(); }, []);
+  useEffect(() => {
+    void fetchClients();
+  }, []);
 
   const handleCorrect = async (goalId: string, clientId: string, currentGoal: string) => {
     try {
@@ -68,9 +72,39 @@ function App() {
                     <div>Goal: {goal.title}</div>
                     <p>Progress: {goal.progress ?? 0}%</p>
                     <progress value={goal.progress ?? 0} max={100} />
-                    <div>
-                      <button onClick={() => handleCorrect(goal.id, client.id, client.currentVBGoal)} style={{ marginTop: 6 }}>
+
+                    <div style={{ marginTop: 12 }}>
+                      <GoalGraph goalId={goal.id} />
+                      <ProgressChecker goalId={goal.id} />
+                    </div>
+
+                    <div style={{ display: 'flex', gap: '8px', marginTop: 6 }}>
+                      <button
+                        onClick={() => handleCorrect(goal.id, client.id, client.currentVBGoal)}
+                      >
                         Mark Correct
+                      </button>
+
+                      <button
+                        onClick={async () => {
+                          for (let i = 0; i < 5; i++) {
+                            await client.graphql({
+                              query: createDataPoint,
+                              variables: {
+                                input: {
+                                  goalID: goal.id,
+                                  value: i % 2 === 0 ? "correct" : "incorrect",
+                                  timestamp: new Date().toISOString(),
+                                },
+                              },
+                            });
+                          }
+                          await updateProgress(goal.id, client.id, client.currentVBGoal);
+                          await fetchClients();
+                          console.log("✅ Seeded test datapoints");
+                        }}
+                      >
+                        Seed Data
                       </button>
                     </div>
                   </li>
@@ -85,3 +119,4 @@ function App() {
 }
 
 export default withAuthenticator(App);
+
