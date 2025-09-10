@@ -1,86 +1,37 @@
- ABA Data Collector
+ABA Data Collector
 
-A full-stack React + AWS Amplify app to track ABA clients, their goals, and data points.
+## 🎯 Project Goal
+The primary goal is to create a secure, extensible tool where practitioners can:
+- Manage **clients** and their **goals**
+- Record **datapoints** (correct/incorrect trials, timestamps)
+- Track **progress automatically** with percentages and charts
+- Authenticate securely with **AWS Cognito**
+- Scale the backend with **AppSync GraphQL API** and **DynamoDB**
 
-✨ Features
+- ## 🛠 Tech Stack
 
-🔐 Authentication with Amazon Cognito
+### Frontend
+- **React 19** (UI framework)
+- **Vite** (fast build tool)
+- **TypeScript** (type safety)
+- **Chart.js + react-chartjs-2** (data visualization)
+- **AWS Amplify UI** (prebuilt components, auth integration)
 
-⚛️ GraphQL API via AppSync + Amplify
+### Backend / AWS
+- **AWS Amplify** (hosting, config)
+- **AWS Cognito** (authentication & user management)
+- **AWS AppSync** (GraphQL API)
+- **AWS DynamoDB** (data persistence)
 
-✨ React Frontend using Vite + TypeScript
+### Development Tools
+- **Vercel** (deployment & CI/CD)
+- **GitHub** (version control, repo hosting)
+- **ESLint** (linting & code quality)
+- **npm** (package management)
 
-📆 Models: Client, Goal, DataPoint
-
-☑️ Auth-protected UI with withAuthenticator
-
-☁️ Deployed backend via AWS Amplify
-
-🚀 Version control with GitHub
-
-📊 Tech Stack
-
-Frontend: React + Vite + TypeScript
-
-Backend: AWS Amplify (Gen 1)
-
-Auth: Amazon Cognito
-
-API: AppSync (GraphQL)
-
-Version Control: Git + GitHub
-
-⚡ Project Setup (Quick)
-
-# From project root
-npm install
-cd frontend/frontend
-npm run dev
-
-📂 Key Structure
-
-frontend/frontend/         # React + Vite project
-frontend/frontend/src/graphql  # Auto-gen queries/mutations
-frontend/frontend/src/aws-exports.js  # Amplify config
-amplify/                   # Amplify backend setup
-
-❌ Common Issues & Fixes
-
-Issue
-
-Fix
-
-Blank screen
-
-Needed valid Cognito user login
-
-API 401 errors
-
-Auth not configured or user not logged in
-
-amplify_outputs.json not found
-
-Use aws-exports.js instead
-
-npm start failed
-
-Use npm run dev for Vite
-
-Git push rejected
-
-Run git pull --rebase first
-
-💡 Lessons Learned
-
-Stick with Amplify Gen 1 unless you're ready for advanced setup
-
-Always check Cognito login for GraphQL API access
-
-Make sure AWS config (aws-exports.js) is wired up
-
-Push early and often to GitHub
-
-🎓 Author
-
-Colin D | @Cduff1174
-
+  📚 Resources Used
+- [AWS Amplify Docs](https://docs.amplify.aws/)  
+- [React Docs](https://react.dev/)  
+- [TypeScript Handbook](https://www.typescriptlang.org/docs/)  
+- [Chart.js Docs](https://www.chartjs.org/docs/latest/)  
+- [Vercel Deployment Guides](https://vercel.com/docs) 
