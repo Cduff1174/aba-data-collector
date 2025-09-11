@@ -15,7 +15,6 @@ import "@aws-amplify/ui-react/styles.css";
 import GoalGraph from "./components/GoalGraph";
 import ProgressChecker from "./components/ProgressChecker";
 
-// Avoid shadowing later
 const gqlClient = generateClient();
 
 interface Goal {
@@ -39,114 +38,78 @@ function App() {
   const [loading, setLoading] = useState<boolean>(true);
   const [newClientName, setNewClientName] = useState<string>("");
 
-  // Pull only the signed-in user’s data (if your schema uses @auth owner)
-  const fetchClients = async () => {
+  async function fetchClients() {
     try {
       setLoading(true);
       const res = await gqlClient.graphql({ query: listClients });
+      console.log("listClients raw:", res); // 👈 helps verify shape / auth
 
       if ("data" in res) {
         const items = (res.data as any)?.listClients?.items ?? [];
-        setClients(items.filter(Boolean));
+        setClients((items || []).filter(Boolean));
       } else {
-        console.error("Unexpected GraphQL response (no data key):", res);
-        setClients([]);
+        console.warn("Unexpected GraphQL response (no data key):", res);
+        setClients([]); // still render empty state
       }
     } catch (error) {
       console.error("Fetch error:", error);
-      setClients([]);
+      setClients([]); // still render empty state
     } finally {
       setLoading(false);
     }
-  };
+  }
 
   useEffect(() => {
     void fetchClients();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // Create a real client (for the current user)
   async function addClient() {
-    if (!newClientName.trim()) return;
+    const name = newClientName.trim();
+    if (!name) return;
     await gqlClient.graphql({
       query: createClient,
-      variables: {
-        input: {
-          name: newClientName.trim(),
-          currentVBGoal: "vb-1",
-        },
-      },
+      variables: { input: { name, currentVBGoal: "vb-1" } },
     });
     setNewClientName("");
     await fetchClients();
   }
 
-  // Seed demo data for a new account (client -> goal -> a couple datapoints)
   async function addSampleData() {
-    // 1) Client
     const clientRes = await gqlClient.graphql({
       query: createClient,
-      variables: {
-        input: {
-          name: "Demo Client",
-          currentVBGoal: "vb-1",
-        },
-      },
+      variables: { input: { name: "Demo Client", currentVBGoal: "vb-1" } },
     });
-
     if (!("data" in clientRes)) return;
-    const newClient = (clientRes.data as any)?.createClient;
-    const clientId: string | undefined = newClient?.id;
+    const clientId = (clientRes.data as any)?.createClient?.id;
     if (!clientId) return;
 
-    // 2) Goal
     const goalRes = await gqlClient.graphql({
       query: createGoal,
       variables: {
-        input: {
-          title: "Imitation: Clap Hands",
-          clientID: clientId, // matches schema
-          progress: 0,
-        },
+        input: { title: "Imitation: Clap Hands", clientID: clientId, progress: 0 },
       },
     });
+    if (!("data" in goalRes)) return;
+    const goalId = (goalRes.data as any)?.createGoal?.id;
 
-    if (!("data" in goalRes)) {
-      await fetchClients();
-      return;
-    }
-
-    const newGoal = (goalRes.data as any)?.createGoal;
-    const goalId: string | undefined = newGoal?.id;
-
-    // 3) Datapoints (correct/incorrect)
     if (goalId) {
       await gqlClient.graphql({
         query: createDataPoint,
         variables: {
-          input: {
-            goalID: goalId,
-            value: "correct",
-            timestamp: new Date().toISOString(),
-          },
+          input: { goalID: goalId, value: "correct", timestamp: new Date().toISOString() },
         },
       });
       await gqlClient.graphql({
         query: createDataPoint,
         variables: {
-          input: {
-            goalID: goalId,
-            value: "incorrect",
-            timestamp: new Date().toISOString(),
-          },
+          input: { goalID: goalId, value: "incorrect", timestamp: new Date().toISOString() },
         },
       });
     }
-
     await fetchClients();
   }
 
-  // Mark a trial as correct & recompute progress
   const handleCorrect = async (
     goalId: string,
     clientId: string,
@@ -156,16 +119,10 @@ function App() {
       const createRes = await gqlClient.graphql({
         query: createDataPoint,
         variables: {
-          input: {
-            goalID: goalId,
-            value: "correct",
-            timestamp: new Date().toISOString(),
-          },
+          input: { goalID: goalId, value: "correct", timestamp: new Date().toISOString() },
         },
       });
-      if (!("data" in createRes)) {
-        console.warn("CreateDataPoint returned no data field:", createRes);
-      }
+      if (!("data" in createRes)) console.warn("CreateDataPoint no data:", createRes);
 
       await updateProgress(goalId, clientId, currentGoal);
       await fetchClients();
@@ -184,14 +141,7 @@ function App() {
       </header>
 
       <section style={{ marginTop: 16 }}>
-        <div
-          style={{
-            display: "flex",
-            gap: 8,
-            alignItems: "center",
-            flexWrap: "wrap",
-          }}
-        >
+        <div style={{ display: "flex", gap: 8, alignItems: "center", flexWrap: "wrap" }}>
           <input
             type="text"
             placeholder="New client name"
@@ -220,8 +170,8 @@ function App() {
         >
           <h3 style={{ marginTop: 0 }}>No clients yet</h3>
           <p style={{ marginTop: 4 }}>
-            You’re signed in, but there’s no data under this account. If your AppSync API uses
-            owner-based auth, you’ll only see items you create while logged in.
+            You’re signed in but there’s no data under this account. If your API uses owner-based
+            auth, you only see items you create.
           </p>
           <div style={{ display: "flex", gap: 8, marginTop: 8 }}>
             <button onClick={addSampleData}>Add Sample Data</button>
@@ -242,58 +192,13 @@ function App() {
                         <div>Goal: {goal.title}</div>
                         <p>Progress: {goal.progress ?? 0}%</p>
                         <progress value={goal.progress ?? 0} max={100} />
-
                         <div style={{ marginTop: 12 }}>
                           <GoalGraph goalId={goal.id} />
                           <ProgressChecker goalId={goal.id} />
                         </div>
-
-                        <div
-                          style={{
-                            display: "flex",
-                            gap: "8px",
-                            marginTop: 6,
-                            flexWrap: "wrap",
-                          }}
-                        >
-                          <button
-                            onClick={() =>
-                              handleCorrect(goal.id, cl.id, cl.currentVBGoal)
-                            }
-                          >
+                        <div style={{ display: "flex", gap: "8px", marginTop: 6, flexWrap: "wrap" }}>
+                          <button onClick={() => handleCorrect(goal.id, cl.id, cl.currentVBGoal)}>
                             Mark Correct
-                          </button>
-
-                          <button
-                            onClick={async () => {
-                              for (let i = 0; i < 5; i++) {
-                                const seedRes = await gqlClient.graphql({
-                                  query: createDataPoint,
-                                  variables: {
-                                    input: {
-                                      goalID: goal.id,
-                                      value: i % 2 === 0 ? "correct" : "incorrect",
-                                      timestamp: new Date().toISOString(),
-                                    },
-                                  },
-                                });
-                                if (!("data" in seedRes)) {
-                                  console.warn(
-                                    "Seed createDataPoint had no data:",
-                                    seedRes
-                                  );
-                                }
-                              }
-                              await updateProgress(
-                                goal.id,
-                                cl.id,
-                                cl.currentVBGoal
-                              );
-                              await fetchClients();
-                              console.log("✅ Seeded test datapoints");
-                            }}
-                          >
-                            Seed Data
                           </button>
                         </div>
                       </li>
