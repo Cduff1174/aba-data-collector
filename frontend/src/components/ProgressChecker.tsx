@@ -1,7 +1,7 @@
-// src/components/ProgressChecker.tsx
+// frontend/src/components/ProgressChecker.tsx
 import { useEffect, useState } from 'react';
 import { generateClient } from 'aws-amplify/api';
-import { listDataPoints } from '../graphql/queries'; // adjust if your query name/path differs
+import { listDataPoints } from '../graphql/queries';
 
 const gqlClient = generateClient();
 
@@ -26,11 +26,10 @@ export default function ProgressChecker({ goalId }: ProgressCheckerProps) {
           const items = (res.data as any)?.listDataPoints?.items ?? [];
           if (isMounted) setCount(items.filter(Boolean).length);
         } else {
-          console.warn('ProgressChecker: response missing data field', res);
           if (isMounted) setCount(0);
         }
       } catch (err) {
-        console.error('Error fetching datapoints for ProgressChecker:', err);
+        console.error('ProgressChecker fetch error:', err);
         if (isMounted) setCount(0);
       }
     })();
@@ -43,8 +42,7 @@ export default function ProgressChecker({ goalId }: ProgressCheckerProps) {
   return (
     <div style={{ marginTop: 8 }}>
       <p style={{ fontSize: '0.9rem' }}>
-        Total datapoints for goal <code>{goalId}</code>:{' '}
-        <strong>{count}</strong>
+        Total datapoints for goal <code>{goalId}</code>: <strong>{count}</strong>
       </p>
     </div>
   );

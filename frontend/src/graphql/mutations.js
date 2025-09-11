@@ -1,6 +1,10 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
+// NOTE: This file matches your schema with owner-based access in mind.
+// Fields like clientID / goalID are preserved so multiple signed-in users
+// only see & modify their own data when using @auth(rules: [{ allow: owner }]).
+
 export const createClient = /* GraphQL */ `
   mutation CreateClient(
     $input: CreateClientInput!
@@ -21,6 +25,7 @@ export const createClient = /* GraphQL */ `
     }
   }
 `;
+
 export const updateClient = /* GraphQL */ `
   mutation UpdateClient(
     $input: UpdateClientInput!
@@ -41,6 +46,7 @@ export const updateClient = /* GraphQL */ `
     }
   }
 `;
+
 export const deleteClient = /* GraphQL */ `
   mutation DeleteClient(
     $input: DeleteClientInput!
@@ -61,6 +67,7 @@ export const deleteClient = /* GraphQL */ `
     }
   }
 `;
+
 export const createGoal = /* GraphQL */ `
   mutation CreateGoal(
     $input: CreateGoalInput!
@@ -82,6 +89,7 @@ export const createGoal = /* GraphQL */ `
     }
   }
 `;
+
 export const updateGoal = /* GraphQL */ `
   mutation UpdateGoal(
     $input: UpdateGoalInput!
@@ -103,6 +111,7 @@ export const updateGoal = /* GraphQL */ `
     }
   }
 `;
+
 export const deleteGoal = /* GraphQL */ `
   mutation DeleteGoal(
     $input: DeleteGoalInput!
@@ -124,6 +133,7 @@ export const deleteGoal = /* GraphQL */ `
     }
   }
 `;
+
 export const createDataPoint = /* GraphQL */ `
   mutation CreateDataPoint(
     $input: CreateDataPointInput!
@@ -142,6 +152,7 @@ export const createDataPoint = /* GraphQL */ `
     }
   }
 `;
+
 export const updateDataPoint = /* GraphQL */ `
   mutation UpdateDataPoint(
     $input: UpdateDataPointInput!
@@ -160,6 +171,7 @@ export const updateDataPoint = /* GraphQL */ `
     }
   }
 `;
+
 export const deleteDataPoint = /* GraphQL */ `
   mutation DeleteDataPoint(
     $input: DeleteDataPointInput!
